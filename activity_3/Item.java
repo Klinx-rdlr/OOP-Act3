@@ -21,7 +21,6 @@ public class Item  {
     private String startDate;
     private String endDate;
     private String bidTime;
-
     private double bidIncrement;
     private double bidPrice;
     private double currentBidPrice;
@@ -64,14 +63,6 @@ public class Item  {
         return itemDesc;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
     public double getCurrentBidPrice(){
         return currentBidPrice;
     }
@@ -83,6 +74,9 @@ public class Item  {
     public double getBidIncrement(){
         return bidIncrement;
     }
+    public void setCurrentBidPrice(double price) {
+        this.currentBidPrice = price;
+    }
 
     public void setName(String name){
         this.itemTitle = name;
@@ -92,8 +86,8 @@ public class Item  {
         System.out.println("Item Title: " + "\t Item ID#: " + getItemTitle());
         System.out.println("Item ID#: " + getItemID());
         System.out.println("Item Description: " + getItemDesc());
-        System.out.println("Item Start Auction Date: " + getStartDate());
-        System.out.println("Item End Auction Date: " + getEndDate());
+        System.out.println("Item Start Auction Date: " + this.startDate);
+        System.out.println("Item End Auction Date: " + this.endDate);
         System.out.println("Item Starting Bid: " + getBidPrice());
         System.out.println("Item Current Bid: " + getCurrentBidPrice());
         System.out.println("Item Bidding increment: " + getBidIncrement());
@@ -101,7 +95,4 @@ public class Item  {
 
     Scanner getInput = new Scanner(System.in);
 
-    public void setCurrentBidPrice(double price) {
-        this.currentBidPrice = price;
-    }
 }

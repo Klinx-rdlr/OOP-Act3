@@ -7,20 +7,17 @@ import java.util.Scanner;
 
 public class Seller extends Account{
     private static int sellerCount = 1;
-    Bank bank;
+    private Bank bank;
     private ArrayList<Item> sellerItems;
-
     Seller(){
         super(generateSellerID());
         this.bank = new Bank();
         sellerItems = new ArrayList<>();
         sellerCount++;
     }
-
     private static String generateSellerID() {
         return "S#" + String.format("%03d", sellerCount);
     }
-
     @Override
     public void createAccount() {
         super.createAccount();
@@ -29,11 +26,9 @@ public class Seller extends Account{
         System.out.println("Here's your ID" + super.getAccount_ID());
         return;
     }
-
     public ArrayList<Item> getSellerItems() {
         return sellerItems;
     }
-
     public void addItem(){
         Item item = new Item();
         item.prompt();
@@ -66,7 +61,6 @@ public class Seller extends Account{
         }
         System.out.println();
     }
-
     public void renameItem(){
         System.out.println("---------Rename Item------------");
         sellerItemList();
@@ -81,7 +75,6 @@ public class Seller extends Account{
     public void setSellerBalance(Double amount){
         this.bank.setBalance(amount);
     }
-
     public void checkBankBalance(){
         System.out.println("-----------Bank Balance---------");
         System.out.println("Seller Balance: " +  this.bank.getBalance());

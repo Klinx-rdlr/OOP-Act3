@@ -11,7 +11,7 @@ public class Menu {
         try {
             int option;
             while(true) {
-                System.out.println("Welcome to XYZ Auction");
+                System.out.println("-----------Welcome to XYZ Auction-------------");
                 System.out.println("[1] Login");
                 System.out.println("[2] Create Account");
                 System.out.println("[3] Exit");
@@ -40,7 +40,7 @@ public class Menu {
 
         String tempEmail;
         String tempPass;
-        System.out.println("----------------------");
+        System.out.println("-----------Log In---------------");
         System.out.println("Enter your ID: ");
         String tempID = getInput.nextLine();
         Account user = getAccount(account, tempID);
@@ -91,6 +91,7 @@ public class Menu {
 
     public void sellerMenu(Seller seller, Transaction transaction){
         int option;
+        System.out.println("-----------------------------------");
         System.out.println("Welcome to Seller Section: ");
         while(true) {
             System.out.println("---------------------------------------------");
@@ -136,6 +137,7 @@ public class Menu {
 
     public void endBid(Seller seller, Transaction transaction){
         int option;
+
         System.out.println("------------Item List-------------");
         seller.sellerItemList();
         System.out.println("Enter: ");
@@ -146,6 +148,7 @@ public class Menu {
         Buyer buyer = findBuyer(buyer_Id);
         buyer.addBuyerItem(product);
         seller.removeItem(product.getItemID());
+        transaction.removeBid(product);
     }
 
     public Buyer findBuyer(String buyer_ID){
@@ -163,15 +166,18 @@ public class Menu {
         ArrayList<Seller> listOfSellers = getListSellers();
         ArrayList<Item> listOfItems = getItemList(listOfSellers);
 
+        System.out.println("-----------------------------------");
         System.out.println("Welcome to Buyer Section: ");
         while(true) {
             int option;
+            System.out.println("-----------------------------------");
             System.out.println("[1] Browse Items");
             System.out.println("[2] Bid on Item");
             System.out.println("[3] Check Balance");
             System.out.println("[4] Check Your Items");
             System.out.println("[5] Check Bidding List");
             System.out.println("[6] Go Back");
+            System.out.println("Enter: ");
             option = Integer.parseInt(getInput.nextLine());
             switch (option){
                 case 1 -> browseItems(listOfItems);
@@ -251,6 +257,7 @@ public class Menu {
         }
     }
     public void browseItems(ArrayList<Item> itemsList) {
+        System.out.println("--------------------------------------------");
         System.out.println("Select an item to find more information: ");
         displayItems(itemsList);
         System.out.println("Enter: ");

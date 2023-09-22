@@ -41,6 +41,7 @@ public class Buyer extends Account {
 
     public void checkItemList(){
         int i = 1;
+        System.out.println("------------Items-----------");
         for(Item item : buyerItems){
             System.out.println(" ["+  i + "] " + item.getItemTitle());
             i++;

@@ -1,10 +1,9 @@
 package activity_3;
 
 public class Bank {
-    private static String accNumber = "B#00001";
+    private String accNumber;
     private String routeNum;
     private double sellerBalance;
-
     public Bank(){
         this.sellerBalance = 0;
     }
@@ -12,16 +11,6 @@ public class Bank {
     public void setRouteNum(String num){
         this.routeNum = num;
     }
-
-    public String getRouteNum() {
-        return routeNum;
-    }
-
-    public void setBalance(Double payment){
-        this.sellerBalance = payment;
-    }
-
-    public double getBalance(){
-        return sellerBalance;
-    }
+    public void setBalance(Double payment){ this.sellerBalance = payment;}
+    public double getBalance(){ return sellerBalance; }
 }

@@ -60,13 +60,13 @@ public class Transaction {
         System.out.println();
     }
 
-    public String getHighestBid(String itemID, Seller seller) {
+    public String getHighestBid(String item_ID, Seller seller, Item product) {
         double highestBid = 0.0;
         String highestBidder = "";
 
         for (Map.Entry<Item, HashMap<String, Double>> transaction : transactions.entrySet()) {
             Item item = transaction.getKey();
-            if (item.getItemID().equals(itemID)) {
+            if (item.getItemID().equals(item_ID)) {
                 HashMap<String, Double> innerMap = transaction.getValue();
                 for (Map.Entry<String, Double> bidEntry : innerMap.entrySet()) {
                     double currentBid = bidEntry.getValue();
@@ -80,5 +80,9 @@ public class Transaction {
 
         seller.setSellerBalance(highestBid);
         return highestBidder;
+    }
+
+    public void removeBid(Item item){
+        this.transactions.remove(item);
     }
 }
