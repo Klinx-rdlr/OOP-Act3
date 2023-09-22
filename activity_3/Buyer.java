@@ -1,14 +1,22 @@
 package activity_3;
 
+import java.util.ArrayList;
+
 public class Buyer extends Account {
+    private static int buyerCount = 1;
     private String shipAddress;
     private double balance;
-    private static int buyerCount = 1;
-    private String buyer_ID;
-    Buyer(){
-        super( "B#" + String.format("%03d", buyerCount));
+    private ArrayList<Item> buyerItems;
+
+    public Buyer() {
+        super(generateBuyerID());
+        buyerItems = new ArrayList<>();
         balance = 10000;
         buyerCount++;
+    }
+
+    private static String generateBuyerID() {
+        return "B#" + String.format("%03d", buyerCount);
     }
 
     public void setShipAddress(String shipAddress) {
@@ -22,9 +30,6 @@ public class Buyer extends Account {
     public void setBalance(double num){
         this.balance -= num;
     }
-    public String getBuyerID() {
-        return buyer_ID;
-    }
     @Override
     public void createAccount() {
         super.createAccount();
@@ -32,5 +37,17 @@ public class Buyer extends Account {
         this.shipAddress = getInput.nextLine();
         System.out.println("Here's your ID" + super.getAccount_ID());
         return;
+    }
+
+    public void checkItemList(){
+        int i = 1;
+        for(Item item : buyerItems){
+            System.out.println(" ["+  i + "] " + item.getItemTitle());
+            i++;
+        }
+    }
+
+    public void addBuyerItem(Item item){
+        buyerItems.add(item);
     }
 }

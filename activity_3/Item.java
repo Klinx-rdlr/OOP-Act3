@@ -5,13 +5,16 @@ import java.util.Scanner;
 
 public class Item  {
 
-    private static String item_ID;
+    private String item_ID;
     private static int itemCount = 1;
 
     Item(){
-        this.item_ID = "I#" + String.format("%03d", itemCount);
+        this.item_ID = generateItemID();
         bidStatus = false;
         itemCount++;
+    }
+    private static String generateItemID() {
+        return "B#" + String.format("%03d", itemCount);
     }
     private String itemTitle;
     private String itemDesc;
@@ -81,6 +84,9 @@ public class Item  {
         return bidIncrement;
     }
 
+    public void setName(String name){
+        this.itemTitle = name;
+    }
     public void itemDesc(){
         System.out.println("-------------------------");
         System.out.println("Item Title: " + "\t Item ID#: " + getItemTitle());

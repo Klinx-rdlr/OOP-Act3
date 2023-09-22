@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public  class Account {
 
-    private static String account_ID;
+    private String account_ID;
     Account(String ID){
         account_ID = ID;
     }
