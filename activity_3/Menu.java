@@ -45,25 +45,24 @@ public class Menu {
         System.out.println("Enter your ID: ");
         String tempID = getInput.nextLine();
 
-        Account user = account.stream()
-                .filter(acc -> acc.getAccount_ID().equals(tempID))
-                .findFirst()
-                .orElse(null);
+        for (Account user : account) {
 
-        if (user != null) {
-            idFound = true;
-            System.out.println("Enter Email: ");
-            tempEmail = getInput.nextLine();
+            if (user.getAccount_ID().equals(tempID)) {
+                idFound = true;
+                System.out.println("Enter Email: ");
+                tempEmail = getInput.nextLine();
 
-            System.out.println("Enter Password: ");
-            tempPass = getInput.nextLine();
+                System.out.println("Enter Password: ");
+                tempPass = getInput.nextLine();
 
-            if (user.getEmail().equals(tempEmail) && user.getPass().equals(tempPass)) {
-                accountON = true;
-                switch (account.getClass().getSimpleName().charAt(0)){
-                    case 'B' -> buyerMenu(user, accounts, transaction);
-                    case 'S' -> sellerMenu((Seller)user);
+                if (user.getEmail().equals(tempEmail) && user.getPass().equals(tempPass)) {
+                    accountON = true;
+                    switch (account.getClass().getSimpleName().charAt(0)){
+                        case 'B' -> buyerMenu(user, accounts, transaction);
+                        case 'S' -> sellerMenu((Seller)user);
+                    }
                 }
+
             }
         }
 
