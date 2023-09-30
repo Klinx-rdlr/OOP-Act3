@@ -1,4 +1,4 @@
-package activity_3_revise;
+
 
 
 import java.util.ArrayList;
@@ -150,68 +150,83 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     }
 
-        public void sellerPrompt ( int counter){
-            String accountID = setSellerID(counter);
-            if (!accounts.containsKey(accountID)) {
-                String email, password, phoneNumber, homeAddress, routingNum;
-                ArrayList<String> tempDetails = new ArrayList<>();
-                HashMap<String, ArrayList<String>> tempData = new HashMap<>();
+    public void sellerPrompt(int counter) {
+        String accountID = setSellerID(counter);
+        if (!accounts.containsKey(accountID)) {
+            String email, password, phoneNumber, homeAddress, routingNum;
+            ArrayList<String> tempDetails = new ArrayList<>();
+            HashMap<String, ArrayList<String>> tempData = new HashMap<>();
 
-                System.out.println("Enter Email Address: ");
-                email = getInput.nextLine();
-                System.out.println("Enter Password: ");
-                password = getInput.nextLine();
-                System.out.println("Enter Phone number: ");
-                phoneNumber = getInput.nextLine();
-                System.out.println("Enter Home address: ");
-                homeAddress = getInput.nextLine();
-                System.out.println("Enter Routing number: ");
-                routingNum = getInput.nextLine();
-                tempDetails.add(password);
-                tempDetails.add(phoneNumber);
-                tempDetails.add(homeAddress);
-                tempDetails.add(routingNum);
-                tempData.put(email, tempDetails);
-                accounts.put(accountID, tempData);
-                sellerBalance.put(accountID, 0.00);
-                System.out.println("Your Account ID is: " + accountID);
-                sellerCounter++;
-            } else {
-                System.out.println("Account Already Exists");
-            }
-        }
+            System.out.println("Enter Email Address: ");
+            email = getInput.nextLine();
+            System.out.println("Enter Password: ");
+            password = getInput.nextLine();
+            System.out.println("Enter Phone number: ");
+            phoneNumber = getInput.nextLine();
+            System.out.println("Enter Home address: ");
+            homeAddress =getInput.nextLine();
+            System.out.println("Enter Routing number: ");
+            routingNum = getInput.nextLine();
+            tempDetails.add(password);
+            tempDetails.add(phoneNumber);
+            tempDetails.add(homeAddress);
+            tempDetails.add(routingNum);
+            tempData.put(email, tempDetails);
+            accounts.put(accountID, tempData);
+            sellerBalance.put(accountID, 0.00);
 
-        public void buyerPrompt ( int counter){
-            String accountID = setBuyerID(counter);
-            if (!accounts.containsKey(accountID)) {
-                String email, password, phoneNumber, homeAddress, shippingAddress;
-                String balance = "10000";
-                ArrayList<String> tempDetails = new ArrayList<>();
-                HashMap<String, ArrayList<String>> tempData = new HashMap<>();
-                System.out.println("Enter Email Address: ");
-                email = getInput.nextLine();
-                System.out.println("Enter Password: ");
-                password = getInput.nextLine();
-                System.out.println("Enter Phone number: ");
-                phoneNumber = getInput.nextLine();
-                System.out.println("Enter Home address: ");
-                homeAddress = getInput.nextLine();
-                System.out.println("Enter Shipping address: ");
-                shippingAddress = getInput.nextLine();
-                tempDetails.add(password);
-                tempDetails.add(phoneNumber);
-                tempDetails.add(homeAddress);
-                tempDetails.add(shippingAddress);
-                tempDetails.add(balance);
-                tempData.put(email, tempDetails);
-                accounts.put(accountID, tempData);
-                buyerBalance.put(accountID, Double.parseDouble(balance));
-                System.out.println("Your Account ID is: " + accountID);
-                buyerCounter++;
-            } else {
-                System.out.println("Account Already Exists");
-            }
+            // Create an empty item map for the seller
+            HashMap<String, ArrayList<String>> sellerItemMap = new HashMap<>();
+
+            // Add the empty item map to the sellerItems map
+            sellerItems.put(accountID, sellerItemMap);
+
+            System.out.println("Your Account ID is: " + accountID);
+            sellerCounter++;
+        } else {
+            System.out.println("Account Already Exists");
         }
+    }
+
+    public void buyerPrompt(int counter) {
+        String accountID = setBuyerID(counter);
+        if (!accounts.containsKey(accountID)) {
+            String email, password, phoneNumber, homeAddress, shippingAddress;
+            String balance = "10000";
+            ArrayList<String> tempDetails = new ArrayList<>();
+            HashMap<String, ArrayList<String>> tempData = new HashMap<>();
+
+            System.out.println("Enter Email Address: ");
+            email = getInput.nextLine();
+            System.out.println("Enter Password: ");
+            password = getInput.nextLine();
+            System.out.println("Enter Phone number: ");
+            phoneNumber = getInput.nextLine();
+            System.out.println("Enter Home address: ");
+            homeAddress = getInput.nextLine();
+            System.out.println("Enter Shipping address: ");
+            shippingAddress = getInput.nextLine();
+            tempDetails.add(password);
+            tempDetails.add(phoneNumber);
+            tempDetails.add(homeAddress);
+            tempDetails.add(shippingAddress);
+            tempDetails.add(balance);
+            tempData.put(email, tempDetails);
+            accounts.put(accountID, tempData);
+            buyerBalance.put(accountID, Double.parseDouble(balance));
+
+            // Create an empty item map for the buyer
+            HashMap<String, ArrayList<String>> buyerItemMap = new HashMap<>();
+
+            // Add the empty item map to the buyerStorage map
+            buyerStorage.put(accountID, buyerItemMap);
+
+            System.out.println("Your Account ID is: " + accountID);
+            buyerCounter++;
+        } else {
+            System.out.println("Account Already Exists");
+        }
+    }
         void createAccount () {
             int accountType;
 
@@ -278,10 +293,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
         void addItem (String sellerID){
-            ArrayList<String> itemList = new ArrayList<>();
-            HashMap<String, ArrayList<String>> tempData = new HashMap<>();
 
-            String ItemID = setItemID(itemCounter);
+            String itemID = setItemID(itemCounter);
             String title, description, startDate, endDate, bidTime, currentBidPrice, bidIncrement;
 
             System.out.println("Enter Item title: ");
@@ -298,6 +311,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             currentBidPrice = getInput.nextLine();
             System.out.println("Enter bidding increment: ");
             bidIncrement = getInput.nextLine();
+
+            ArrayList<String> itemList = new ArrayList<>();
             itemList.add(sellerID); //0
             itemList.add(title); //1
             itemList.add(description); //2
@@ -306,8 +321,17 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             itemList.add(bidTime); //5
             itemList.add(currentBidPrice); //6
             itemList.add(bidIncrement); // 7
-            tempData.put(ItemID, itemList);
-            sellerItems.put(sellerID, tempData);
+
+
+            HashMap<String, ArrayList<String>> innerMap;
+            if (sellerItems.containsKey(sellerID)) {
+                innerMap = sellerItems.get(sellerID);
+            } else {
+                innerMap = new HashMap<>();
+                sellerItems.put(sellerID, innerMap);
+            }
+
+            innerMap.put(itemID, itemList);
             itemCounter++;
         }
 
@@ -436,6 +460,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 int option;
                 System.out.println("-----------------------------------");
                 System.out.println("[1] Browse Items");
+                System.out.println("[2] Check Item Details");
                 System.out.println("[2] Bid on Item");
                 System.out.println("[3] Check Balance");
                 System.out.println("[4] Check Your Items");
@@ -445,10 +470,11 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 option = Integer.parseInt(getInput.nextLine());
                 switch (option) {
                     case 1 -> browseItems();
-                    case 2 -> bidOnItem(buyerID);
-                    case 3 -> checkBuyerBalance(buyerID);
-                    case 4 -> buyerPrintItems(buyerID);
-                    case 5 -> checkBiddingList();
+                    case 2 -> checkItemDetails();
+                    case 3 -> bidOnItem(buyerID);
+                    case 4 -> checkBuyerBalance(buyerID);
+                    case 5 -> buyerPrintItems(buyerID);
+                    case 6 -> checkBiddingList();
                     default -> {
                         return;
                     }
@@ -456,7 +482,27 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             }
         }
 
-
+    void checkItemDetails(){
+        System.out.println("----------------Check Details---------------");
+        String itemID, sellerID;
+        if(browseItems()){
+            System.out.println("Enter Item ID: ");
+            itemID = getInput.nextLine();
+            System.out.println("Enter Seller ID: ");
+            sellerID = getInput.nextLine();
+            ArrayList<String> itemCopy = sellerItems.get(sellerID).get(itemID);
+            System.out.println("-------------------------");
+            System.out.println("Item Title: " + itemCopy.get(1));
+            System.out.println("Item Description: " + itemCopy.get(2));
+            System.out.println("Item Start Auction Date: " + itemCopy.get(3));
+            System.out.println("Item End Auction Date: " + itemCopy.get(4));
+            System.out.println("Item Start time of bid:  " + itemCopy.get(5));
+            System.out.println("Item Starting Bid:  " + itemCopy.get(6));
+            System.out.println("Item Bidding increment: " + itemCopy.get(7));
+        }else{
+            System.out.println("No item found");
+        }
+    }
     boolean browseItems() {
         if (sellerItems.isEmpty()) {
             System.out.println("No items found");
@@ -464,23 +510,22 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
         System.out.println("----------------List of Items----------------");
-        System.out.println("Item Title: ---- Item ID: ");
+        System.out.println("Item Title: -------- Item ID: -------- Seller ID: ");
 
         int i = 1;
         for (Map.Entry<String, HashMap<String, ArrayList<String>>> sellerEntry : sellerItems.entrySet()) {
-            HashMap<String, ArrayList<String>> innerMap = sellerEntry.getValue();
+            String sellerID = sellerEntry.getKey();
+            HashMap<String, ArrayList<String>> itemMap = sellerEntry.getValue();
 
-            for (Map.Entry<String, ArrayList<String>> itemEntry : innerMap.entrySet()) {
-                ArrayList<String> itemList = itemEntry.getValue();
+            for (Map.Entry<String, ArrayList<String>> itemEntry : itemMap.entrySet()) {
+                String itemID = itemEntry.getKey();
+                ArrayList<String> itemDetails = itemEntry.getValue();
+                String itemTitle = itemDetails.get(1);
 
-                if (itemList.size() > 1) {
-                    String itemTitle = itemList.get(1);
-                    System.out.println("[" + i + "] " + itemTitle + " ---- " + itemEntry.getKey());
-                    i++;
-                }
+                System.out.println("[" + i + "] " + itemTitle + " ---- " + itemID + "-----" + sellerID);
+                i++;
             }
         }
-
         return true;
     }
 
