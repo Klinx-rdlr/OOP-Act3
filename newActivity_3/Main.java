@@ -1,4 +1,4 @@
-
+package activity_3_revise;
 
 
 import java.util.ArrayList;
@@ -12,8 +12,7 @@ public class Main {
     (If Buyer 0- Password, 1- Phone Number, 2- Home Address, 3- Shipping Address, 4- Balance
     (If Seller)  0- Password, 1- Phone Number, 2- Home Address, 3 - Routing Number, 4- Bank number
     */
-
-
+    
     HashMap<String, HashMap<String, ArrayList<String>>> sellerItems;
     /*Seller ID (Key of OuterMap sellerItems) - Item ID (Key of InnerMap sellerItems)
  Item Details Index No : (ArrayList - value of InnerMap sellerItems)
@@ -461,11 +460,11 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 System.out.println("-----------------------------------");
                 System.out.println("[1] Browse Items");
                 System.out.println("[2] Check Item Details");
-                System.out.println("[2] Bid on Item");
-                System.out.println("[3] Check Balance");
-                System.out.println("[4] Check Your Items");
-                System.out.println("[5] Check Bidding List");
-                System.out.println("[6] Log out");
+                System.out.println("[3] Bid on Item");
+                System.out.println("[4] Check Balance");
+                System.out.println("[5] Check Your Items");
+                System.out.println("[6] Check Bidding List");
+                System.out.println("[7] Log out");
                 System.out.println("Enter: ");
                 option = Integer.parseInt(getInput.nextLine());
                 switch (option) {
