@@ -137,7 +137,6 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         boolean checkerID = idChecker(userID);
 
         if (checkerID) {
-            System.out.println("Test");
             boolean validCredentials = false;
 
             while (!validCredentials) {
