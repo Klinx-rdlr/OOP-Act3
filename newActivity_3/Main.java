@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
 public class Main {
     HashMap<String, HashMap<String, ArrayList<String>>> accounts;
     /*Account ID (Key of OuterMap accounts) - Email (Key of InnerMap accounts)
@@ -29,8 +30,9 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
      // Container for seller and buyer balance
     HashMap<String, Double> sellerBalance;
+    
+    Object[][] Transactions;
     HashMap<String, Double> buyerBalance;
-
     HashMap<String, HashMap<String, String>> sellerFeedbackList;
     Scanner getInput;
 
@@ -40,6 +42,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
 
     public Main() {
+        Transactions = new Object[3][1]; //Limited to 3 Seller and Buyers only
         accounts = new HashMap<>();
         sellerItems = new HashMap<>();
         transactions = new HashMap<>();
@@ -79,6 +82,26 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             }
         }
         return null; // Item ID not found
+    }
+
+    boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(emailRegex);
+    }
+
+    boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}$";
+        return password.matches(passwordRegex);
+    }
+
+    boolean isValidPhoneNumber(String phoneNumber) {
+        String phoneRegex = "^\\d{10}$";
+        return phoneNumber.matches(phoneRegex);
+    }
+
+    boolean isValidRoutingNumber(String routingNumber) {
+        String routingRegex = "^\\d{9}$";
+        return routingNumber.matches(routingRegex);
     }
     public void Menu () {
         try {
@@ -148,7 +171,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     }
 
-    public void sellerPrompt(int counter) {
+    void sellerPrompt(int counter) {
         String accountID = setSellerID(counter);
         if (!accounts.containsKey(accountID)) {
             String email, password, phoneNumber, homeAddress, routingNum;
@@ -157,14 +180,35 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
             System.out.println("Enter Email Address: ");
             email = getInput.nextLine();
+            while (!isValidEmail(email)) {
+                System.out.println("Invalid Email Address. Please enter a valid email:");
+                email = getInput.nextLine();
+            }
+
             System.out.println("Enter Password: ");
             password = getInput.nextLine();
-            System.out.println("Enter Phone number: ");
+            while (!isValidPassword(password)) {
+                System.out.println("Invalid Password. Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit:");
+                password = getInput.nextLine();
+            }
+
+            System.out.println("Enter Phone number +63: ");
             phoneNumber = getInput.nextLine();
+            while (!isValidPhoneNumber(phoneNumber)) {
+                System.out.println("Invalid Phone number. Please enter a valid phone number:");
+                phoneNumber = getInput.nextLine();
+            }
+
             System.out.println("Enter Home address: ");
-            homeAddress =getInput.nextLine();
+            homeAddress = getInput.nextLine();
+
             System.out.println("Enter Routing number: ");
             routingNum = getInput.nextLine();
+            while (!isValidRoutingNumber(routingNum)) {
+                System.out.println("Invalid Routing number. Routing number must be a 9-digit number:");
+                routingNum = getInput.nextLine();
+            }
+
             tempDetails.add(password);
             tempDetails.add(phoneNumber);
             tempDetails.add(homeAddress);
@@ -186,7 +230,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     }
 
-    public void buyerPrompt(int counter) {
+    void buyerPrompt(int counter) {
         String accountID = setBuyerID(counter);
         if (!accounts.containsKey(accountID)) {
             String email, password, phoneNumber, homeAddress, shippingAddress;
@@ -196,14 +240,31 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
             System.out.println("Enter Email Address: ");
             email = getInput.nextLine();
+            while (!isValidEmail(email)) {
+                System.out.println("Invalid Email Address. Please enter a valid email:");
+                email = getInput.nextLine();
+            }
+
             System.out.println("Enter Password: ");
             password = getInput.nextLine();
-            System.out.println("Enter Phone number: ");
+            while (!isValidPassword(password)) {
+                System.out.println("Invalid Password. Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit:");
+                password = getInput.nextLine();
+            }
+
+            System.out.println("Enter Phone number +63: ");
             phoneNumber = getInput.nextLine();
+            while (!isValidPhoneNumber(phoneNumber)) {
+                System.out.println("Invalid Phone number. Please enter a valid phone number:");
+                phoneNumber = getInput.nextLine();
+            }
+
             System.out.println("Enter Home address: ");
             homeAddress = getInput.nextLine();
+
             System.out.println("Enter Shipping address: ");
             shippingAddress = getInput.nextLine();
+
             tempDetails.add(password);
             tempDetails.add(phoneNumber);
             tempDetails.add(homeAddress);
@@ -225,6 +286,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             System.out.println("Account Already Exists");
         }
     }
+
         void createAccount () {
             int accountType;
 
