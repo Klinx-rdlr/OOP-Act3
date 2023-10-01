@@ -151,7 +151,6 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 if (innerMap.containsKey(tempEmail) && innerMap.get(tempEmail).get(0).equals(tempPass)) {
                     // Valid email and password
                     validCredentials = true;
-                    // Rest of the code
                     switch (userID.charAt(0)) {
                         case 'B' -> buyerMenu(userID);
                         case 'S' -> sellerMenu(userID);
