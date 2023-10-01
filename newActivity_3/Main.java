@@ -1,9 +1,10 @@
+package activity_3_revise;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
 public class Main {
     HashMap<String, HashMap<String, ArrayList<String>>> accounts;
     /*Account ID (Key of OuterMap accounts) - Email (Key of InnerMap accounts)
@@ -30,7 +31,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
      // Container for seller and buyer balance
     HashMap<String, Double> sellerBalance;
-    
+
+    // Storing transactions
     Object[][] Transactions;
     HashMap<String, Double> buyerBalance;
     HashMap<String, HashMap<String, String>> sellerFeedbackList;
@@ -58,6 +60,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         main.Menu();
     }
 
+
+    // Used for setting unique id's
     public String setSellerID(int sellerCounter) {
         return "S#" + String.format("%03d", sellerCounter);
     }
@@ -74,6 +78,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         return accounts.containsKey(userID);
     }
 
+
     public String getSellerID(String itemID) {
         for (Map.Entry<String, HashMap<String, ArrayList<String>>> sellerEntry : sellerItems.entrySet()) {
             HashMap<String, ArrayList<String>> innerMap = sellerEntry.getValue();
@@ -81,9 +86,11 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 return sellerEntry.getKey();
             }
         }
-        return null; // Item ID not found
+        return null;
     }
 
+
+    // Validation functions
     boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(emailRegex);
@@ -137,6 +144,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         boolean checkerID = idChecker(userID);
 
         if (checkerID) {
+            System.out.println("Test");
             boolean validCredentials = false;
 
             while (!validCredentials) {
@@ -149,8 +157,9 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
                 HashMap<String, ArrayList<String>> innerMap = accounts.get(userID);
                 if (innerMap.containsKey(tempEmail) && innerMap.get(tempEmail).get(0).equals(tempPass)) {
-                    // Valid email and password
                     validCredentials = true;
+
+                    //Used for accessing menu, depending on the type of the account
                     switch (userID.charAt(0)) {
                         case 'B' -> buyerMenu(userID);
                         case 'S' -> sellerMenu(userID);
@@ -207,6 +216,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 routingNum = getInput.nextLine();
             }
 
+            // Used for storing the data to sellerItems, and for initializing balance for seller
             tempDetails.add(password);
             tempDetails.add(phoneNumber);
             tempDetails.add(homeAddress);
@@ -214,11 +224,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             tempData.put(email, tempDetails);
             accounts.put(accountID, tempData);
             sellerBalance.put(accountID, 0.00);
-
-            // Create an empty item map for the seller
             HashMap<String, ArrayList<String>> sellerItemMap = new HashMap<>();
-
-            // Add the empty item map to the sellerItems map
             sellerItems.put(accountID, sellerItemMap);
 
             System.out.println("Your Account ID is: " + accountID);
@@ -228,6 +234,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     }
 
+
+    // Option for buyers
     void buyerPrompt(int counter) {
         String accountID = setBuyerID(counter);
         if (!accounts.containsKey(accountID)) {
@@ -263,6 +271,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             System.out.println("Enter Shipping address: ");
             shippingAddress = getInput.nextLine();
 
+            // Used for storing the data to buyerStorage
             tempDetails.add(password);
             tempDetails.add(phoneNumber);
             tempDetails.add(homeAddress);
@@ -271,11 +280,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             tempData.put(email, tempDetails);
             accounts.put(accountID, tempData);
             buyerBalance.put(accountID, Double.parseDouble(balance));
-
-            // Create an empty item map for the buyer
             HashMap<String, ArrayList<String>> buyerItemMap = new HashMap<>();
-
-            // Add the empty item map to the buyerStorage map
             buyerStorage.put(accountID, buyerItemMap);
 
             System.out.println("Your Account ID is: " + accountID);
@@ -328,7 +333,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             }
         }
 
-
+        // Option for sellers
         public void sellerOptions (String sellerID){
             int option;
             while (true) {
@@ -371,6 +376,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             bidIncrement = getInput.nextLine();
 
             ArrayList<String> itemList = new ArrayList<>();
+            //Indexing guide, proper arrangement for the Arraylist item details holder
             itemList.add(sellerID); //0
             itemList.add(title); //1
             itemList.add(description); //2
@@ -480,24 +486,32 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 if (sellerItems.containsKey(sellerID)) {
                     printItems(sellerID);
                     System.out.println("Enter the Item ID you want to end bid: ");
-
                     String itemID = getInput.nextLine();
 
+
+                    //Getting information from the winner of the bid
                     HashMap<String, Double> tempDetails = getHighestBid(itemID);
                     String buyerID = tempDetails.keySet().iterator().next();
                     Double payment = tempDetails.get(buyerID);
                     addSellerBalance(sellerID, payment);
 
+
+                    //Deducting the bid to the winner's balance
+                    double newBalance = buyerBalance.get(buyerID) - payment;
+                    buyerBalance.replace(buyerID, newBalance);
+                    
+                    //Adding the Item to the winner's storage
                     ArrayList<String> tempData = sellerItems.get(sellerID).get(itemID);
                     HashMap<String, ArrayList<String>> itemCopy = new HashMap<>();
                     itemCopy.put(itemID, tempData);
-
                     if (!buyerStorage.containsKey(buyerID)) {
                         buyerStorage.put(buyerID, itemCopy);
                     } else {
                         buyerStorage.get(buyerID).put(itemID, tempData);
                     }
 
+                    System.out.println("Item bid successfully ended");
+                    //Removing the sold item from the transaction and seller items
                     transactions.remove(itemID);
                     sellerItems.get(sellerID).remove(itemID);
                 }else{
@@ -603,9 +617,6 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 double bidAmount = Double.parseDouble(getInput.nextLine());
 
                 if (bidAmount > currentBidPrice) {
-                    double newBalance = buyerBalance.get(buyerID) - bidAmount;
-                    buyerBalance.put(buyerID, newBalance);
-
                     double nextPrice = bidAmount + bidIncrement;
                     itemData.set(6, Double.toString(nextPrice));
 
@@ -654,32 +665,42 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             }
         }
 
-        void sellerPrintFeedback(String sellerID){
-            System.out.println("----------Sold Items-----------");
-            if (sellerFeedbackList.containsKey(sellerID)) {
-                HashMap<String, String> innerMap = sellerFeedbackList.get(sellerID);
+    void sellerPrintFeedback(String sellerID) {
+        System.out.println("----------Sold Items-----------");
+        if (sellerFeedbackList.containsKey(sellerID)) {
+            HashMap<String, String> innerMap = sellerFeedbackList.get(sellerID);
 
-                System.out.println("Item ID: ");
-                int i = 1;
-                for (String itemID : innerMap.keySet()) {
-                    System.out.println("[" + i + "] " +  itemID);
-                    i++;
-                }
-
-                System.out.println();
-                System.out.println("[1] View Feedback");
-                System.out.println("[2] Go Back");
-                String option = getInput.nextLine();
-                if(Integer.parseInt(option) == 1){
-                    String tempID;
-                    System.out.println("Enter Item ID: ");
-                    tempID = getInput.nextLine();
-                    sellerViewFeedBack(sellerID, tempID);
-                }
-            } else {
+            if (innerMap.isEmpty()) {
                 System.out.println("No sold items yet");
+                return;
             }
+
+            System.out.println("Item ID: ");
+            int i = 1;
+            for (String itemID : innerMap.keySet()) {
+                System.out.println("[" + i + "] " +  itemID);
+                i++;
+            }
+
+            System.out.println();
+            System.out.println("[1] View Feedback");
+            System.out.println("[2] Go Back");
+            String option = getInput.nextLine();
+
+            if (Integer.parseInt(option) == 1) {
+                System.out.println("Enter Item ID: ");
+                String tempID = getInput.nextLine();
+
+                if (innerMap.containsKey(tempID)) {
+                    sellerViewFeedBack(sellerID, tempID);
+                } else {
+                    System.out.println("No Item ID match found");
+                }
+            }
+        } else {
+            System.out.println("No sold items yet");
         }
+    }
         void sellerViewFeedBack(String sellerID, String itemID) {
             System.out.println("---------Feedback----------");
             HashMap<String, String> feedbackCopy = sellerFeedbackList.get(sellerID);
@@ -692,8 +713,9 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             String feedbackMsgCopy = feedbackCopy.get(itemID);
             String buyerID;
 
-            int startIndex = feedbackMsgCopy.indexOf("Bought By: ") + 11; // Add 11 to skip the length of "Bought By: "
-            int endIndex = feedbackMsgCopy.indexOf("\n", startIndex); // Find the end index of the buyerID
+            //Extracting the buyerID from the feedbackMsg
+            int startIndex = feedbackMsgCopy.indexOf("Bought By: ") + 11;
+            int endIndex = feedbackMsgCopy.indexOf("\n", startIndex);
             buyerID = feedbackMsgCopy.substring(startIndex, endIndex);
 
 
@@ -747,35 +769,44 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             }
         }
     }
-        void buyerPrintItems (String buyerID){
-            System.out.println("-------------Item Storage---------------");
-            if (buyerStorage.containsKey(buyerID)) {
-                HashMap<String, ArrayList<String>> innerMap = buyerStorage.get(buyerID);
-                int i = 1;
-                System.out.println("Item Title: ----- \tItem ID: ");
-                for (String itemID : innerMap.keySet()) {
-                    System.out.println("[" + i + "] " + innerMap.get(itemID).get(1) + " ---- \t" + itemID);
-                    i++;
-                }
+    void buyerPrintItems(String buyerID) {
+        System.out.println("-------------Item Storage---------------");
+        if (buyerStorage.containsKey(buyerID)) {
+            HashMap<String, ArrayList<String>> innerMap = buyerStorage.get(buyerID);
 
-                System.out.println();
-                String option, itemID;
-                System.out.println("[1] Select Item:");
-                System.out.println("[0] Go back: ");
-                option = getInput.nextLine();
-
-                if (Integer.parseInt(option) == 1) {
-                    System.out.println();
-                    System.out.println("Enter Item ID: ");
-                    itemID = getInput.nextLine();
-                    buyerItemDetails(buyerID, itemID);
-                }
-
-            } else {
+            if (innerMap.isEmpty()) {
                 System.out.println("No items found");
+                return;
             }
 
+            int i = 1;
+            System.out.println("Item Title: ----- \tItem ID: ");
+            for (String itemID : innerMap.keySet()) {
+                System.out.println("[" + i + "] " + innerMap.get(itemID).get(1) + " ---- \t" + itemID);
+                i++;
+            }
+
+            System.out.println();
+            String option;
+            System.out.println("[1] Select Item:");
+            System.out.println("[0] Go back: ");
+            option = getInput.nextLine();
+
+            if (Integer.parseInt(option) == 1) {
+                System.out.println();
+                System.out.println("Enter Item ID: ");
+                String itemID = getInput.nextLine();
+
+                if (innerMap.containsKey(itemID)) {
+                    buyerItemDetails(buyerID, itemID);
+                } else {
+                    System.out.println("No Item ID match found");
+                }
+            }
+        } else {
+            System.out.println("No items found");
         }
+    }
 
         void checkBiddingList () {
             System.out.println("-----------Bidding's-----------");
@@ -795,5 +826,5 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 System.out.println("No bids yet");
             }
         }
-    }
+}
 
