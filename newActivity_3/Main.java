@@ -1,5 +1,3 @@
-package activity_3_revise;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +10,7 @@ public class Main {
     (If Buyer 0- Password, 1- Phone Number, 2- Home Address, 3- Shipping Address, 4- Balance
     (If Seller)  0- Password, 1- Phone Number, 2- Home Address, 3 - Routing Number, 4- Bank number
     */
-    
+
     HashMap<String, HashMap<String, ArrayList<String>>> sellerItems;
     /*Seller ID (Key of OuterMap sellerItems) - Item ID (Key of InnerMap sellerItems)
  Item Details Index No : (ArrayList - value of InnerMap sellerItems)
@@ -29,6 +27,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 - ((Transaction Details(Bid Amount and Time of Bid) - value of InnerMap sellerItems))
 */
 
+     // Container for seller and buyer balance
     HashMap<String, Double> sellerBalance;
     HashMap<String, Double> buyerBalance;
 
@@ -440,7 +439,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                     }
 
                     transactions.remove(itemID);
-                    sellerItems.remove(itemID);
+                    sellerItems.get(sellerID).remove(itemID);
                 }else{
                     System.out.println("No Items Found");
                 }
@@ -509,7 +508,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
         System.out.println("----------------List of Items----------------");
-        System.out.println("Item Title: -------- Item ID: -------- Seller ID: ");
+        System.out.println("Item Title: -------- \tItem ID: -------- \tSeller ID: ");
 
         int i = 1;
         for (Map.Entry<String, HashMap<String, ArrayList<String>>> sellerEntry : sellerItems.entrySet()) {
@@ -521,10 +520,11 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                 ArrayList<String> itemDetails = itemEntry.getValue();
                 String itemTitle = itemDetails.get(1);
 
-                System.out.println("[" + i + "] " + itemTitle + " ---- " + itemID + "-----" + sellerID);
+                System.out.println("[" + i + "] " + itemTitle + " ---- \t" + itemID + "-----\t" + sellerID);
                 i++;
             }
         }
+        System.out.println();
         return true;
     }
 
@@ -606,6 +606,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
                     i++;
                 }
 
+                System.out.println();
                 System.out.println("[1] View Feedback");
                 System.out.println("[2] Go Back");
                 String option = getInput.nextLine();
@@ -655,6 +656,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     void buyerItemDetails(String buyerID, String itemID) {
         int option;
+        System.out.println("----------Item Details-----------");
         ArrayList<String> itemCopy = buyerStorage.get(buyerID).get(itemID);
         String sellerID = itemCopy.get(0);
         String itemTitle = itemCopy.get(1);
@@ -662,7 +664,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         System.out.println("Item Title: " + itemCopy.get(1));
         System.out.println("Item Seller: " + itemCopy.get(0));
         System.out.println("Item Description: " + itemCopy.get(2));
-
+        System.out.println();
         boolean hasFeedback = itemCopy.size() > 8 && itemCopy.get(8) != null;
 
         if (!hasFeedback) {
@@ -690,18 +692,20 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             if (buyerStorage.containsKey(buyerID)) {
                 HashMap<String, ArrayList<String>> innerMap = buyerStorage.get(buyerID);
                 int i = 1;
-                System.out.println("\tItem Title: ----- Item ID: ");
-                for (String itemTitle : innerMap.keySet()) {
-                    System.out.println("[" + i + "] " + innerMap.get(itemTitle).get(1) + " ---- " + itemTitle);
+                System.out.println("Item Title: ----- \tItem ID: ");
+                for (String itemID : innerMap.keySet()) {
+                    System.out.println("[" + i + "] " + innerMap.get(itemID).get(1) + " ---- \t" + itemID);
                     i++;
                 }
 
+                System.out.println();
                 String option, itemID;
                 System.out.println("[1] Select Item:");
                 System.out.println("[0] Go back: ");
                 option = getInput.nextLine();
 
                 if (Integer.parseInt(option) == 1) {
+                    System.out.println();
                     System.out.println("Enter Item ID: ");
                     itemID = getInput.nextLine();
                     buyerItemDetails(buyerID, itemID);
