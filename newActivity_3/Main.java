@@ -148,7 +148,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             boolean validCredentials = false;
 
             while (!validCredentials) {
-                System.out.println("--------------------------------------------");
+                System.out.println();
+                System.out.println("------------- Enter Credentials ------------");
                 System.out.println("Enter Email: ");
                 tempEmail = getInput.nextLine();
 
@@ -183,6 +184,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             ArrayList<String> tempDetails = new ArrayList<>();
             HashMap<String, ArrayList<String>> tempData = new HashMap<>();
 
+            System.out.println();
+            System.out.println("--------- Creating a Seller Account --------");
             System.out.println("Enter Email Address: ");
             email = getInput.nextLine();
             while (!isValidEmail(email)) {
@@ -242,6 +245,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             ArrayList<String> tempDetails = new ArrayList<>();
             HashMap<String, ArrayList<String>> tempData = new HashMap<>();
 
+            System.out.println();
+            System.out.println("--------- Creating a Buyer Account ---------");
             System.out.println("Enter Email Address: ");
             email = getInput.nextLine();
             while (!isValidEmail(email)) {
@@ -290,7 +295,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
         void createAccount () {
             int accountType;
-
+            
+            System.out.println();
             System.out.println("--------------------------------------------");
             System.out.println("Select Account Type: ");
             System.out.println("[1] Buyer");
@@ -306,6 +312,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
         public void sellerMenu (String sellerID){
             int option;
+            System.out.println();
             System.out.println("--------------------------------------------");
             System.out.println("          Welcome to Seller Section: ");
             while (true) {
@@ -354,7 +361,8 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
     void addItem(String sellerID) {
-        System.out.println("------------------Add Item------------------");
+        System.out.println();
+        System.out.println("--------------- Adding Items ---------------");
         String itemID = setItemID(itemCounter);
         String title, description, startDate, endDate, bidTime, currentBidPrice, bidIncrement;
 
@@ -418,6 +426,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
 
         void printItems (String sellerID){
+            System.out.println();
             System.out.println("---------------List of Items----------------");
             if(sellerItems.containsKey(sellerID)) {
                 int i = 1;
@@ -433,6 +442,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
         public void removeItem (String sellerID){
+            System.out.println();
             if(sellerItems.containsKey(sellerID)){
                 System.out.println("----------------Remove Item-----------------");
                 printItems(sellerID);
@@ -459,7 +469,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
             if(sellerItems.containsKey(sellerID)) {
                 System.out.println("----------------Rename Item-----------------");
                 printItems(sellerID);
-                System.out.println("Enter: item id");
+                System.out.println("Enter item id: ");
 
                 String itemID = getInput.nextLine();
 
@@ -542,7 +552,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
 
         public void buyerMenu (String buyerID){
-
+            System.out.println();
             System.out.println("--------------------------------------------");
             System.out.println("          Welcome to Buyer Section: ");
             while (true) {
@@ -572,7 +582,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
     void checkItemDetails(){
-        System.out.println("----------------Check Details---------------");
+        System.out.println("--------------- Check Details ---------------");
         String itemID, sellerID;
         if(browseItems()){
             System.out.println("Enter Item ID: ");
@@ -668,7 +678,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
 
         void buyerAddFeedback(String buyerID, String sellerID, String itemID, String itemTitle){
             String rating, comment, feedBackMsg;
-            System.out.println("-----------Rate the seller's item------------");
+            System.out.println("----------- Rate the seller's item ------------");
             System.out.println("Enter your rating 1-10: ");
             rating = getInput.nextLine();
             System.out.println("Enter your comment: ");
@@ -687,7 +697,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
 
     void sellerPrintFeedback(String sellerID) {
-        System.out.println("----------Sold Items-----------");
+        System.out.println("---------------- Sold Items ----------------");
         if (sellerFeedbackList.containsKey(sellerID)) {
             HashMap<String, String> innerMap = sellerFeedbackList.get(sellerID);
 
@@ -748,7 +758,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         void sellerAddFeedback(String sellerID, String buyerID, String itemID){
             String rating, comment, feedBackMsg;
 
-            System.out.println("-----------Rate the buyer's transaction------------");
+            System.out.println("--------- Rate the buyer's transaction ----------");
             System.out.println("Enter your rating 1-10: ");
             rating = getInput.nextLine();
             System.out.println("Enter your comment: ");
@@ -759,7 +769,7 @@ Item Details Index No : (ArrayList - value of InnerMap sellerItems)
         }
     void buyerItemDetails(String buyerID, String itemID) {
         int option;
-        System.out.println("----------Item Details-----------");
+        System.out.println("---------- Item Details -----------");
         ArrayList<String> itemCopy = buyerStorage.get(buyerID).get(itemID);
         String sellerID = itemCopy.get(0);
         String itemTitle = itemCopy.get(1);
